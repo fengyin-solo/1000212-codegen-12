@@ -13,6 +13,7 @@ const Makeup = () => import('@/views/makeup/index.vue')
 const Equipment = () => import('@/views/equipment/index.vue')
 const Shooting = () => import('@/views/shooting/index.vue')
 const Footage = () => import('@/views/footage/index.vue')
+const Retention = () => import('@/views/retention/index.vue')
 const Edit = () => import('@/views/edit/index.vue')
 const Vfx = () => import('@/views/vfx/index.vue')
 const Review = () => import('@/views/review/index.vue')
@@ -38,6 +39,7 @@ const router = createRouter({
     { path: '/equipment', name: 'equipment', component: Equipment },
     { path: '/shooting', name: 'shooting', component: Shooting },
     { path: '/footage', name: 'footage', component: Footage },
+    { path: '/retention', name: 'retention', component: Retention },
     { path: '/edit', name: 'edit', component: Edit },
     { path: '/vfx', name: 'vfx', component: Vfx },
     { path: '/review', name: 'review', component: Review },

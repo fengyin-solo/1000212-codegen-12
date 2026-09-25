@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from app.services.retention import evaluate_entry
 from app.store import store
 
 MODULE = "footage"
@@ -28,7 +29,18 @@ class FootageService:
             rows = [row for row in rows if row.get("status") == status]
         total = len(rows)
         start = max(page - 1, 0) * size
-        return rows[start:start + size], total
+        page_rows = rows[start:start + size]
+        # 保留判定与归档执行共用 evaluate_entry，列表与结果同一标准。
+        items = []
+        for row in page_rows:
+            item = dict(row)
+            judged = evaluate_entry(row)
+            item["保留判定"] = judged["判定说明"]
+            item["保留到期日"] = judged["到期日"]
+            item["距到期天数"] = judged["距到期天数"]
+            item["命中规则"] = judged["命中规则"]
+            items.append(item)
+        return items, total
 
     def get_entry(self, entry_id: int) -> dict[str, Any] | None:
         return store.find(MODULE, entry_id)

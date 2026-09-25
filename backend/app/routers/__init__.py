@@ -18,6 +18,7 @@ from app.routers import makeup as router_makeup
 from app.routers import equipment as router_equipment
 from app.routers import shooting as router_shooting
 from app.routers import footage as router_footage
+from app.routers import retention as router_retention
 from app.routers import edit as router_edit
 from app.routers import vfx as router_vfx
 from app.routers import review as router_review
@@ -27,4 +28,4 @@ from app.routers import schedule as router_schedule
 from app.routers import permit as router_permit
 from app.routers import wrap as router_wrap
 
-ROUTERS = [router_script, router_scene, router_casting, router_crew, router_notice, router_location, router_prop, router_costume, router_makeup, router_equipment, router_shooting, router_footage, router_edit, router_vfx, router_review, router_budget, router_expense, router_schedule, router_permit, router_wrap]
+ROUTERS = [router_script, router_scene, router_casting, router_crew, router_notice, router_location, router_prop, router_costume, router_makeup, router_equipment, router_shooting, router_footage, router_retention, router_edit, router_vfx, router_review, router_budget, router_expense, router_schedule, router_permit, router_wrap]

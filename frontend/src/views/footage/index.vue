@@ -6,6 +6,7 @@
         <p class="page-desc">维护拍摄素材，围绕素材编号、素材类型、拍摄日期、文件大小做登记、筛选与状态流转。</p>
       </div>
       <div class="page-actions">
+        <RouterLink class="btn" to="/retention">归档保留规则</RouterLink>
         <button class="btn primary" type="button" @click="openCreate">登记拍摄素材</button>
         <button class="btn" type="button" @click="exportRows">导出素材管理清单</button>
       </div>
@@ -31,12 +32,18 @@
       <thead>
         <tr>
           <th v-for="column in columns" :key="column">{{ column }}</th>
+          <th>命中规则</th>
+          <th>保留到期日</th>
+          <th>保留判定</th>
           <th>可执行动作</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in rows" :key="String(row.id)">
           <td v-for="column in columns" :key="column">{{ row[column] ?? '—' }}</td>
+          <td>{{ row['命中规则'] ?? '—' }}</td>
+          <td>{{ row['保留到期日'] ?? '—' }}</td>
+          <td :class="retentionTone(String(row['保留判定'] ?? ''))">{{ row['保留判定'] ?? '—' }}</td>
           <td class="row-actions">
             <button
               v-for="action in actions"
@@ -50,7 +57,7 @@
           </td>
         </tr>
         <tr v-if="!rows.length">
-          <td :colspan="columns.length + 1" class="empty-state">暂无素材管理数据，可先登记拍摄素材</td>
+          <td :colspan="columns.length + 4" class="empty-state">暂无素材管理数据，可先登记拍摄素材</td>
         </tr>
       </tbody>
     </table>
@@ -88,6 +95,14 @@ function resetFilters() {
 
 function exportRows() {
   window.open(`${ENDPOINT}/export`, '_blank')
+}
+
+function retentionTone(text: string): string {
+  if (text.includes('待归档')) return 'retention-archive'
+  if (text.includes('禁止归档')) return 'retention-block'
+  if (text.includes('人工确认')) return 'retention-manual'
+  if (text.includes('已归档')) return 'retention-skip'
+  return ''
 }
 
 function openCreate() {
@@ -128,3 +143,21 @@ async function reload() {
 
 onMounted(reload)
 </script>
+
+<style scoped>
+.retention-archive {
+  color: #2f8f46;
+}
+
+.retention-block {
+  color: #b2421d;
+}
+
+.retention-manual {
+  color: #a8731a;
+}
+
+.retention-skip {
+  color: #8a8f9c;
+}
+</style>
